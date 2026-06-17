@@ -1,0 +1,115 @@
+{
+    "columns": [
+        {
+            "Field": "id_jurnal_umum",
+            "Type": "bigint(20) unsigned",
+            "Null": "NO",
+            "Key": "PRI",
+            "Default": null,
+            "Extra": "auto_increment"
+        },
+        {
+            "Field": "reff_barang_masuk",
+            "Type": "varchar(255)",
+            "Null": "YES",
+            "Key": "MUL",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "reff_penyusutan",
+            "Type": "varchar(20)",
+            "Null": "YES",
+            "Key": "MUL",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "tanggal",
+            "Type": "date",
+            "Null": "NO",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "deskripsi",
+            "Type": "varchar(255)",
+            "Null": "NO",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "tipe_transaksi",
+            "Type": "varchar(255)",
+            "Null": "NO",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "created_at",
+            "Type": "timestamp",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "updated_at",
+            "Type": "timestamp",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        }
+    ],
+    "jurnals": [
+        {
+            "id_jurnal_umum": 3,
+            "reff_barang_masuk": null,
+            "reff_penyusutan": null,
+            "tanggal": "2026-03-31",
+            "deskripsi": "Penyusutan: printer (Mar 2026)",
+            "tipe_transaksi": "penyusutan",
+            "created_at": "2026-03-12T16:01:50.000000Z",
+            "updated_at": "2026-03-12T16:01:50.000000Z"
+        },
+        {
+            "id_jurnal_umum": 2,
+            "reff_barang_masuk": null,
+            "reff_penyusutan": null,
+            "tanggal": "2026-03-31",
+            "deskripsi": "Penyusutan: printer (Mar 2026)",
+            "tipe_transaksi": "penyusutan",
+            "created_at": "2026-03-12T16:01:50.000000Z",
+            "updated_at": "2026-03-12T16:01:50.000000Z"
+        },
+        {
+            "id_jurnal_umum": 1,
+            "reff_barang_masuk": "BRNGMSK00001",
+            "reff_penyusutan": null,
+            "tanggal": "2026-03-12",
+            "deskripsi": "Pembelian aset: printer",
+            "tipe_transaksi": "barang_masuk",
+            "created_at": "2026-03-12T16:00:09.000000Z",
+            "updated_at": "2026-03-12T16:00:09.000000Z"
+        }
+    ],
+    "penyusutan": [
+        {
+            "id_penyusutan": "PNY-AST-001",
+            "barang_kantor_id": 6,
+            "tanggal_perolehan": "2026-03-12",
+            "harga_perolehan": 1,
+            "nilai_residu": 0,
+            "umur_ekonomis_tahun": 4,
+            "beban_penyusutan_tahunan": 0,
+            "status_penyusutan": "Aktif",
+            "keterangan": null,
+            "created_at": "2026-03-12T16:27:54.000000Z",
+            "updated_at": "2026-03-12T16:27:54.000000Z"
+        }
+    ]
+}

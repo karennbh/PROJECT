@@ -1,0 +1,1015 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/Admin/**/*';
+@source '../../../../resources/views/filament/admin/**/*';
+
+/* ======================================================
+   GLOBAL - Enhanced Backgrounds
+====================================================== */
+
+/* LIGHT MODE - Soft Gradient */
+html[data-theme="light"] body {
+    @apply bg-gradient-to-br from-blue-50 via-white to-indigo-50;
+    background-attachment: fixed;
+}
+
+/* DARK MODE - Improved Contrast & Readability */
+html[data-theme="dark"] body {
+    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-slate-50;
+    background-attachment: fixed;
+}
+
+/* ======================================================
+    SIDEBAR - Modern Deep Blue with Timeline
+====================================================== */
+
+.fi-sidebar {
+    background: linear-gradient(180deg, #0a1929 0%, #0f2642 50%, #1a365d 100%) !important;
+    @apply border-r border-white/20 shadow-2xl;
+    backdrop-filter: blur(12px);
+}
+
+/* Sidebar Header */
+.fi-sidebar-header {
+    @apply border-b border-white/20 pb-4 mb-3;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Group Label */
+.fi-sidebar-group-label {
+    @apply text-cyan-200 font-black uppercase text-[10px] tracking-[0.15em] px-5 !mb-2 !mt-4;
+    text-shadow: 0 2px 6px rgba(6, 182, 212, 0.5);
+}
+
+/* Base Item Sidebar */
+.fi-sidebar-item {
+    @apply relative flex items-center transition-all duration-300 !my-1 !mx-3;
+    padding-left: 2.8rem !important; 
+}
+
+/* Sidebar Links - Cyan Color for Better Readability */
+.fi-sidebar-item a, 
+.fi-sidebar-item button {
+    @apply !text-base font-semibold py-3 px-3 rounded-xl transition-all duration-300;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    color: #67e8f9 !important; /* Lebih terang dari sebelumnya */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shimmer Effect */
+.fi-sidebar-item a::before,
+.fi-sidebar-item button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.15), transparent);
+    transition: left 0.5s;
+}
+
+.fi-sidebar-item a:hover::before,
+.fi-sidebar-item button:hover::before {
+    left: 100%;
+}
+
+/* Ensure all child elements are also cyan */
+.fi-sidebar-item:not(.fi-sidebar-item-active) a *,
+.fi-sidebar-item:not(.fi-sidebar-item-active) button * {
+    color: #67e8f9 !important;
+}
+
+/* ACTIVE STATE - Gradient White with Better Shadow */
+.fi-sidebar-item-active a, 
+.fi-sidebar-item-active button {
+    background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%) !important;
+    color: #0c4a6e !important;
+    box-shadow: 
+        0 4px 16px rgba(6, 182, 212, 0.4), 
+        0 2px 8px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transform: translateX(4px);
+}
+
+.fi-sidebar-item-active a *,
+.fi-sidebar-item-active button * {
+    color: #0c4a6e !important;
+}
+
+/* Timeline Vertical Line */
+.fi-sidebar-item::before {
+    content: "";
+    position: absolute;
+    left: 1.4rem; 
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, 
+        rgba(6, 182, 212, 0.15) 0%, 
+        rgba(6, 182, 212, 0.4) 50%, 
+        rgba(6, 182, 212, 0.15) 100%
+    );
+    z-index: 1;
+}
+
+/* Timeline Dot - Enhanced Glow */
+.fi-sidebar-item::after {
+    content: "";
+    position: absolute;
+    left: 1.28rem; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    @apply rounded-full;
+    background: #22d3ee;
+    box-shadow: 
+        0 0 10px rgba(34, 211, 238, 0.9),
+        0 0 20px rgba(34, 211, 238, 0.5);
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Hover State */
+.fi-sidebar-item:not(.fi-sidebar-item-active) a:hover, 
+.fi-sidebar-item:not(.fi-sidebar-item-active) button:hover {
+    background: rgba(6, 182, 212, 0.12) !important;
+    color: #ffffff !important;
+    transform: translateX(2px);
+}
+
+.fi-sidebar-item:not(.fi-sidebar-item-active) a:hover *,
+.fi-sidebar-item:not(.fi-sidebar-item-active) button:hover * {
+    color: #ffffff !important;
+}
+
+/* Active Dot - White & Larger */
+.fi-sidebar-item-active::after {
+    background: #ffffff !important;
+    transform: translateY(-50%) scale(1.5);
+    box-shadow: 
+        0 0 14px rgba(255, 255, 255, 0.9),
+        0 0 24px rgba(6, 182, 212, 0.7);
+}
+
+/* Hover on Dot */
+.fi-sidebar-item:hover::after {
+    transform: translateY(-50%) scale(1.3);
+    box-shadow: 
+        0 0 14px rgba(34, 211, 238, 1),
+        0 0 24px rgba(6, 182, 212, 0.7);
+}
+
+/* Sidebar Icons */
+.fi-sidebar-item svg {
+    @apply w-5 h-5 mr-3 relative z-10 transition-all duration-300;
+    color: #67e8f9 !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.fi-sidebar-item-active svg {
+    color: #0c4a6e !important;
+    filter: drop-shadow(0 2px 4px rgba(6, 182, 212, 0.4));
+}
+
+.fi-sidebar-item:hover svg {
+    color: #ffffff !important;
+    transform: scale(1.15);
+}
+
+/* ======================================================
+   TOP BAR - Consistent Sky Blue Header (Same for Light & Dark)
+====================================================== */
+
+/* Header - Beautiful Sky Blue Gradient (Same for both themes) */
+.fi-topbar {
+    background: #cfefff !important;
+    @apply text-white shadow-2xl border-b-4;
+    border-bottom-color: rgba(125, 194, 230, 0.65) !important;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: visible !important; /* PENTING: ubah dari hidden ke visible */
+    isolation: isolate;
+}
+
+html[data-theme="dark"] .fi-topbar {
+    background: #0f3a52 !important;
+    border-bottom-color: rgba(56, 189, 248, 0.35) !important;
+}
+
+/* Animated Background Pattern */
+.fi-topbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: none;
+    pointer-events: none !important; /* PENTING: pastikan tidak menghalangi klik */
+    z-index: 0;
+}
+
+.fi-topbar-heading {
+    @apply font-bold text-xl;
+    color: #0f4c6b !important;
+    text-shadow: none;
+    position: relative;
+    z-index: 10;
+}
+
+html[data-theme="dark"] .fi-topbar-heading {
+    color: #f8fdff !important;
+}
+
+.fi-topbar-user {
+    color: #0f4c6b !important;
+    position: relative;
+    z-index: 10;
+}
+
+html[data-theme="dark"] .fi-topbar-user {
+    color: #e6f7ff !important;
+}
+
+.fi-topbar .fi-logo {
+    @apply font-extrabold text-2xl;
+    color: #ffffff !important;
+    text-shadow: none;
+    position: relative;
+    z-index: 10;
+}
+
+/* Pastikan semua elemen interaktif di topbar bisa diklik */
+.fi-topbar > *,
+.fi-topbar nav,
+.fi-topbar button,
+.fi-topbar a,
+.fi-topbar [role="button"],
+.fi-topbar .fi-dropdown,
+.fi-topbar input,
+.fi-topbar form {
+    position: relative;
+    z-index: 10;
+}
+
+/* User menu khusus */
+.fi-topbar .fi-user-menu,
+.fi-topbar [data-dropdown-toggle],
+.fi-topbar [x-data] {
+    position: relative !important;
+    z-index: 50 !important; /* z-index lebih tinggi untuk dropdown */
+}
+
+/* Dropdown content harus punya z-index paling tinggi */
+.fi-topbar [role="menu"],
+.fi-topbar [x-show],
+[x-transition] {
+    z-index: 100 !important;
+}
+
+.fi-topbar svg,
+.fi-topbar button,
+.fi-topbar a {
+    color: #0f4c6b !important;
+}
+
+html[data-theme="dark"] .fi-topbar svg,
+html[data-theme="dark"] .fi-topbar button,
+html[data-theme="dark"] .fi-topbar a {
+    color: #e6f7ff !important;
+}
+
+/* ======================================================
+   PAGE HEADER
+====================================================== */
+
+html[data-theme="light"] .fi-header {
+    @apply border-b-2 border-blue-200 pb-6 mb-6;
+}
+
+html[data-theme="light"] .fi-header-heading {
+    @apply text-slate-900 font-extrabold text-3xl;
+    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+html[data-theme="dark"] .fi-header {
+    @apply border-b-2 border-cyan-800 pb-6 mb-6;
+}
+
+html[data-theme="dark"] .fi-header-heading {
+    @apply text-slate-50 font-extrabold text-3xl;
+    text-shadow: 0 2px 10px rgba(6, 182, 212, 0.3);
+}
+
+/* ======================================================
+   CARDS - Enhanced Design
+====================================================== */
+
+/* LIGHT MODE */
+html[data-theme="light"] .fi-card {
+    @apply bg-white border-2 border-blue-100 shadow-lg rounded-2xl;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+}
+
+html[data-theme="light"] .fi-card:hover {
+    @apply shadow-2xl border-blue-300;
+    transform: translateY(-3px);
+}
+
+html[data-theme="light"] .fi-card-header {
+    @apply text-slate-900 font-bold text-lg;
+}
+
+/* DARK MODE */
+html[data-theme="dark"] .fi-card {
+    @apply border-2 border-slate-700 shadow-2xl rounded-2xl;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    transition: all 0.3s ease;
+}
+
+html[data-theme="dark"] .fi-card:hover {
+    @apply shadow-cyan-900/30 border-cyan-700;
+    transform: translateY(-3px);
+    box-shadow: 
+        0 20px 25px -5px rgba(6, 182, 212, 0.1),
+        0 10px 10px -5px rgba(6, 182, 212, 0.04);
+}
+
+html[data-theme="dark"] .fi-card-header {
+    @apply text-slate-100 font-bold text-lg;
+}
+
+html[data-theme="dark"] .fi-dropdown-panel,
+html[data-theme="dark"] .fi-modal-window,
+html[data-theme="dark"] .fi-ta-ctn,
+html[data-theme="dark"] .fi-section {
+    background: linear-gradient(180deg, #102737 0%, #0b1d2a 100%) !important;
+    border-color: rgba(103, 232, 249, 0.18) !important;
+    color: #ecfeff !important;
+}
+
+html[data-theme="dark"] .fi-dropdown-panel .fi-btn,
+html[data-theme="dark"] .fi-dropdown-panel button,
+html[data-theme="dark"] .fi-dropdown-panel a,
+html[data-theme="dark"] .fi-modal-window button,
+html[data-theme="dark"] .fi-modal-window a {
+    color: #e6f7ff !important;
+}
+
+html[data-theme="dark"] .fi-dropdown-panel svg,
+html[data-theme="dark"] .fi-modal-window svg {
+    color: #8edfff !important;
+}
+
+html[data-theme="dark"] .fi-dropdown-list-item:hover,
+html[data-theme="dark"] .fi-dropdown-panel button:hover,
+html[data-theme="dark"] .fi-dropdown-panel a:hover {
+    background: rgba(56, 189, 248, 0.14) !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .fi-input-wrp {
+    background: #112332 !important;
+    border-color: rgba(125, 211, 252, 0.28) !important;
+}
+
+html[data-theme="dark"] .fi-input,
+html[data-theme="dark"] .fi-select-input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea {
+    color: #effbff !important;
+}
+
+html[data-theme="dark"] .fi-input::placeholder,
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #9ecddd !important;
+}
+
+html[data-theme="dark"] .fi-section-header,
+html[data-theme="dark"] .fi-ta-header-ctn,
+html[data-theme="dark"] .fi-ta-header-toolbar,
+html[data-theme="dark"] .fi-ta-filter-indicators,
+html[data-theme="dark"] .fi-ta-content-header {
+    background: #123041 !important;
+    border-color: rgba(125, 211, 252, 0.16) !important;
+}
+
+html[data-theme="dark"] .fi-section-header-heading,
+html[data-theme="dark"] .fi-section-header-description,
+html[data-theme="dark"] .fi-ta-header-heading,
+html[data-theme="dark"] .fi-ta-header-description,
+html[data-theme="dark"] .fi-label,
+html[data-theme="dark"] label,
+html[data-theme="dark"] .fi-fo-field-wrp-label span {
+    color: #effbff !important;
+}
+
+html[data-theme="dark"] .fi-dropdown-list-item-label,
+html[data-theme="dark"] .fi-link,
+html[data-theme="dark"] .fi-btn-label {
+    color: #effbff !important;
+}
+
+html[data-theme="dark"] .fi-tabs-item,
+html[data-theme="dark"] .fi-tabs-item-label,
+html[data-theme="dark"] .fi-breadcrumbs li,
+html[data-theme="dark"] .fi-breadcrumbs a,
+html[data-theme="dark"] .fi-pagination *,
+html[data-theme="dark"] .fi-global-search-results *,
+html[data-theme="dark"] .fi-no-notification-title,
+html[data-theme="dark"] .fi-no-notification-description {
+    color: #dff7ff !important;
+}
+
+html[data-theme="dark"] .fi-tabs-item[aria-selected="true"] {
+    background: rgba(56, 189, 248, 0.16) !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .fi-ta-row:nth-child(odd),
+html[data-theme="dark"] tbody.fi-ta-body > tr.fi-ta-row:nth-child(odd) {
+    background: #141f37 !important;
+}
+
+html[data-theme="dark"] .fi-ta-row:nth-child(even),
+html[data-theme="dark"] tbody.fi-ta-body > tr.fi-ta-row:nth-child(even) {
+    background: #0f172a !important;
+}
+
+html[data-theme="dark"] .fi-ta-row:hover,
+html[data-theme="dark"] tbody.fi-ta-body > tr.fi-ta-row:hover {
+    background: #18324a !important;
+}
+
+html[data-theme="dark"] .fi-ta-cell,
+html[data-theme="dark"] .fi-ta-cell *,
+html[data-theme="dark"] .fi-fo-placeholder,
+html[data-theme="dark"] .fi-in-entry,
+html[data-theme="dark"] .fi-in-entry * {
+    color: #eefbff !important;
+}
+
+html[data-theme="dark"] .fi-fo-field-wrp,
+html[data-theme="dark"] .fi-input-wrp,
+html[data-theme="dark"] .fi-select-input,
+html[data-theme="dark"] .fi-date-time-picker,
+html[data-theme="dark"] .choices__inner {
+    background: #112332 !important;
+    border-color: rgba(125, 211, 252, 0.24) !important;
+}
+
+html[data-theme="dark"] .fi-sidebar-header {
+    background: rgba(15, 58, 82, 0.55) !important;
+}
+
+html[data-theme="dark"] .fi-sidebar-group-label {
+    color: #a5ecff !important;
+}
+
+/* ======================================================
+   ACTION BUTTONS - Super Bright & Attractive
+====================================================== */
+
+/* Primary Buttons */
+.fi-btn-primary,
+button[type="submit"] {
+    background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%) !important;
+    @apply text-slate-900 rounded-xl font-bold shadow-xl border-0 px-6 py-3;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 20px rgba(6, 182, 212, 0.5),
+        0 0 30px rgba(34, 211, 238, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.fi-btn-primary:hover,
+button[type="submit"]:hover {
+    background: linear-gradient(135deg, #67e8f9 0%, #22d3ee 100%) !important;
+    box-shadow: 
+        0 6px 24px rgba(6, 182, 212, 0.7),
+        0 0 40px rgba(34, 211, 238, 0.5);
+    transform: translateY(-2px) scale(1.03);
+}
+
+/* Header Action Buttons */
+.fi-header-actions button,
+.fi-header-actions a {
+    background: linear-gradient(135deg, #a5f3fc 0%, #67e8f9 100%) !important;
+    @apply text-slate-900 rounded-xl font-black shadow-2xl px-6 py-3;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 6px 24px rgba(103, 232, 249, 0.6),
+        0 0 40px rgba(34, 211, 238, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+.fi-header-actions button:hover,
+.fi-header-actions a:hover {
+    background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%) !important;
+    box-shadow: 
+        0 8px 30px rgba(103, 232, 249, 0.8),
+        0 0 50px rgba(34, 211, 238, 0.7);
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* Shimmer Effect */
+.fi-header-actions button::before,
+.fi-header-actions a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transition: left 0.6s;
+}
+
+.fi-header-actions button:hover::before,
+.fi-header-actions a:hover::before {
+    left: 100%;
+}
+
+/* Secondary Button */
+.fi-btn-secondary {
+    @apply bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl font-semibold shadow-md;
+    transition: all 0.3s ease;
+}
+
+/* ======================================================
+   TABLE ACTION BUTTONS - Colorful
+====================================================== */
+
+/* View Button - Blue */
+.fi-ta-actions .fi-link:nth-child(1),
+.fi-ta-actions button:nth-child(1) {
+    @apply text-blue-600 hover:!text-white hover:!bg-blue-600 font-semibold px-3 py-2 rounded-lg transition-all duration-200 shadow-sm;
+}
+
+/* Edit Button - Emerald */
+.fi-ta-actions .fi-link:nth-child(2),
+.fi-ta-actions button:nth-child(2) {
+    @apply text-emerald-600 hover:!text-white hover:!bg-emerald-600 font-semibold px-3 py-2 rounded-lg transition-all duration-200 shadow-sm;
+}
+
+/* Delete Button - Red */
+.fi-ta-actions .fi-link:nth-child(3),
+.fi-ta-actions button:nth-child(3) {
+    @apply text-red-600 hover:!text-white hover:!bg-red-600 font-semibold px-3 py-2 rounded-lg transition-all duration-200 shadow-sm;
+}
+
+.fi-ta-actions svg {
+    @apply w-4 h-4 transition-transform duration-200;
+}
+
+.fi-ta-actions button:hover svg,
+.fi-ta-actions .fi-link:hover svg {
+    @apply scale-115;
+}
+
+/* ======================================================
+   TABLE - Colorful & Modern with Zebra Stripes
+====================================================== */
+
+.fi-ta {
+    @apply rounded-2xl overflow-hidden shadow-lg;
+}
+
+/* ---------- LIGHT MODE - Colorful Table ---------- */
+
+/* Table Header - Vibrant Blue Gradient */
+html[data-theme="light"] .fi-ta-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    @apply text-white font-bold;
+    border-bottom: 4px solid #1d4ed8 !important;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+}
+
+html[data-theme="light"] .fi-ta-header-cell {
+    @apply text-white font-extrabold uppercase text-xs tracking-wider py-4 px-4;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Table Body */
+html[data-theme="light"] tbody.fi-ta-body {
+    @apply bg-white;
+}
+
+/* Odd Rows - Light Blue */
+html[data-theme="light"] tbody.fi-ta-body > tr.fi-ta-row:nth-child(odd) {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+}
+
+/* Even Rows - Soft Purple */
+html[data-theme="light"] tbody.fi-ta-body > tr.fi-ta-row:nth-child(even) {
+    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%) !important;
+}
+
+/* Hover Effect - Cyan Gradient */
+html[data-theme="light"] tbody.fi-ta-body > tr.fi-ta-row:hover {
+    background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%) !important;
+    @apply shadow-lg;
+    transform: scale(1.002);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+}
+
+html[data-theme="light"] .fi-ta-cell {
+    @apply text-slate-900 py-4 px-4 font-medium;
+}
+
+html[data-theme="light"] .fi-ta-cell a {
+    @apply text-blue-700 hover:text-purple-700 font-semibold;
+    transition: color 0.2s ease;
+}
+
+/* ---------- DARK MODE - Enhanced Contrast ---------- */
+
+html[data-theme="dark"] .fi-ta-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+    @apply text-white font-bold;
+    border-bottom: 3px solid #1d4ed8;
+    box-shadow: 0 4px 6px rgba(30, 58, 138, 0.4);
+}
+
+html[data-theme="dark"] .fi-ta-header-cell {
+    @apply text-white font-extrabold uppercase text-xs tracking-wider py-4 px-4;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Odd Rows */
+html[data-theme="dark"] tbody.fi-ta-body > tr.fi-ta-row:nth-child(odd) {
+    @apply bg-slate-800;
+}
+
+/* Even Rows */
+html[data-theme="dark"] tbody.fi-ta-body > tr.fi-ta-row:nth-child(even) {
+    background: #1a1f2e;
+}
+
+/* Hover Effect */
+html[data-theme="dark"] tbody.fi-ta-body > tr.fi-ta-row:hover {
+    background: linear-gradient(135deg, #164e63 0%, #155e75 100%) !important;
+    @apply shadow-xl;
+    transform: scale(1.002);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+html[data-theme="dark"] .fi-ta-cell {
+    @apply text-slate-100 py-4 px-4 font-medium;
+}
+
+html[data-theme="dark"] .fi-ta-cell a {
+    @apply text-cyan-400 hover:text-cyan-300 font-semibold;
+    transition: color 0.2s ease;
+}
+
+/* ======================================================
+   BADGES - Colorful & Soft
+====================================================== */
+
+.fi-badge {
+    @apply font-bold px-3 py-1.5 rounded-full text-xs uppercase tracking-wide shadow-sm;
+}
+
+/* Info/Cyan */
+.fi-badge-info {
+    @apply bg-cyan-100 text-cyan-800 border-2 border-cyan-300;
+}
+
+/* Secondary/Purple */
+.fi-badge-secondary {
+    @apply bg-purple-100 text-purple-800 border-2 border-purple-300;
+}
+
+/* Success/Emerald */
+.fi-badge-success {
+    @apply bg-emerald-100 text-emerald-800 border-2 border-emerald-300;
+}
+
+/* Warning/Amber */
+.fi-badge-warning {
+    @apply bg-amber-100 text-amber-800 border-2 border-amber-300;
+}
+
+/* Primary/Blue */
+.fi-badge-primary {
+    @apply bg-blue-100 text-blue-800 border-2 border-blue-300;
+}
+
+/* Danger/Red */
+.fi-badge-danger {
+    @apply bg-red-100 text-red-800 border-2 border-red-300;
+}
+
+/* Dark Mode Badges */
+html[data-theme="dark"] .fi-badge-info {
+    @apply bg-cyan-900 text-cyan-100 border-2 border-cyan-700;
+}
+
+html[data-theme="dark"] .fi-badge-secondary {
+    @apply bg-purple-900 text-purple-100 border-2 border-purple-700;
+}
+
+html[data-theme="dark"] .fi-badge-success {
+    @apply bg-emerald-900 text-emerald-100 border-2 border-emerald-700;
+}
+
+html[data-theme="dark"] .fi-badge-warning {
+    @apply bg-amber-900 text-amber-100 border-2 border-amber-700;
+}
+
+html[data-theme="dark"] .fi-badge-primary {
+    @apply bg-blue-900 text-blue-100 border-2 border-blue-700;
+}
+
+html[data-theme="dark"] .fi-badge-danger {
+    @apply bg-red-900 text-red-100 border-2 border-red-700;
+}
+
+/* ======================================================
+   SEARCH INPUT - Modern
+====================================================== */
+
+html[data-theme="light"] .fi-input-wrp {
+    @apply bg-white border-2 border-blue-200 rounded-xl shadow-md;
+    transition: all 0.3s ease;
+}
+
+html[data-theme="light"] .fi-input {
+    @apply bg-white text-slate-900 placeholder-slate-500 font-medium;
+}
+
+html[data-theme="light"] .fi-input:focus {
+    @apply ring-2 ring-blue-500 border-blue-500;
+}
+
+html[data-theme="light"] .fi-input-wrp:focus-within {
+    @apply border-blue-500 shadow-xl;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Dark Mode Input */
+html[data-theme="dark"] .fi-input-wrp {
+    @apply bg-slate-800 border-2 border-slate-600 rounded-xl shadow-lg;
+    transition: all 0.3s ease;
+}
+
+html[data-theme="dark"] .fi-input {
+    @apply bg-slate-800 text-slate-100 placeholder-slate-400 font-medium;
+}
+
+html[data-theme="dark"] .fi-input:focus {
+    @apply ring-2 ring-cyan-500 border-cyan-500;
+}
+
+html[data-theme="dark"] .fi-input-wrp:focus-within {
+    @apply border-cyan-500 shadow-xl;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+}
+
+/* ======================================================
+   PAGINATION
+====================================================== */
+
+.fi-pagination {
+    @apply mt-6;
+}
+
+html[data-theme="light"] .fi-pagination button {
+    @apply hover:bg-blue-100 text-slate-700 font-semibold transition-all rounded-xl;
+}
+
+html[data-theme="light"] .fi-pagination button[aria-current="page"] {
+    @apply bg-blue-600 text-white font-bold shadow-lg;
+}
+
+html[data-theme="dark"] .fi-pagination button {
+    @apply hover:bg-cyan-900 text-slate-200 font-semibold transition-all rounded-xl;
+}
+
+html[data-theme="dark"] .fi-pagination button[aria-current="page"] {
+    @apply bg-cyan-600 text-white font-bold shadow-lg;
+}
+
+/* ======================================================
+   SCROLLBAR - Custom
+====================================================== */
+
+/* Sidebar Scrollbar */
+.fi-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.fi-sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.fi-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(6, 182, 212, 0.4);
+    border-radius: 3px;
+}
+
+.fi-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 182, 212, 0.6);
+}
+
+/* Main Content Scrollbar - Light */
+html[data-theme="light"] .fi-main::-webkit-scrollbar {
+    width: 10px;
+}
+
+html[data-theme="light"] .fi-main::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+html[data-theme="light"] .fi-main::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
+    border-radius: 5px;
+}
+
+html[data-theme="light"] .fi-main::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #2563eb 0%, #7c3aed 100%);
+}
+
+/* Main Content Scrollbar - Dark */
+html[data-theme="dark"] .fi-main::-webkit-scrollbar {
+    width: 10px;
+}
+
+html[data-theme="dark"] .fi-main::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+html[data-theme="dark"] .fi-main::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #0891b2 0%, #06b6d4 100%);
+    border-radius: 5px;
+}
+
+html[data-theme="dark"] .fi-main::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #06b6d4 0%, #22d3ee 100%);
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 768px) {
+    .fi-sidebar-item {
+        padding-left: 2rem !important;
+    }
+    
+    .fi-sidebar-item::before {
+        left: 0.8rem;
+    }
+    
+    .fi-sidebar-item::after {
+        left: 0.68rem;
+    }
+    
+    .fi-topbar-heading {
+        @apply text-lg;
+    }
+    
+    .fi-header-heading {
+        @apply text-2xl;
+    }
+
+    .fi-header-actions button,
+    .fi-header-actions a {
+        @apply px-4 py-2 text-sm;
+    }
+}
+
+/* ======================================================
+   ACCESSIBILITY
+====================================================== */
+
+.fi-sidebar-item a:focus-visible,
+.fi-sidebar-item button:focus-visible {
+    outline: 3px solid #22d3ee;
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ======================================================
+   LOADING STATES
+====================================================== */
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    }
+    50% { 
+        opacity: 0.7;
+        box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+    }
+}
+
+.fi-loading {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* =========================
+   GLOBAL SEARCH - BATASI LEBAR (FIXED FOR SIDEBAR)
+   ========================= */
+
+/* Pastikan pencarian di sidebar bisa mengambil ruang maksimal tanpa merusak layout */
+.fi-sidebar .fi-global-search {
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0;
+    padding: 0 16px;
+}
+
+/* Wrapper input agar responsif */
+.fi-sidebar .fi-global-search .fi-input-wrp {
+    width: 100%;
+}
+
+/* Dropdown hasil pencarian mengikuti lebar input di sidebar */
+.fi-sidebar .fi-global-search-results-ctn {
+    width: calc(100% - 32px) !important; /* Kurangi padding kiri/kanan */
+    max-width: 100% !important;
+    min-width: 0 !important;
+    left: 16px !important; 
+    right: auto !important;
+}
+
+/* Hasil list hasil pencarian */
+.fi-sidebar .fi-global-search-results {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* Header/topbar dibiarkan default saja tanpa overflow constraints */
+.fi-topbar {
+    overflow: visible !important;
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+    .fi-sidebar .fi-global-search {
+        padding: 0 12px;
+    }
+
+    .fi-sidebar .fi-global-search-results-ctn {
+        width: calc(100% - 24px) !important;
+        left: 12px !important;
+    }
+}
+
+/* ======================================================
+   FILTER DROPDOWN
+====================================================== */
+
+.fi-ta-filters-dropdown .fi-dropdown-panel {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.fi-ta-filters {
+    padding-bottom: 0.5rem;
+}
+
+.fi-ta-filters-actions-ctn {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    padding-top: 1rem;
+    padding-bottom: 0.25rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 28%, #ffffff 100%);
+}
+
+html[data-theme="dark"] .fi-ta-filters-actions-ctn {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, #0f172a 28%, #0f172a 100%);
+}

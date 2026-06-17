@@ -1,0 +1,34 @@
+/* Sidebar dasar */
+.sidebar {
+    transition: width 0.2s ease;
+}
+
+/* Saat layout-root diberi kelas sidebar-collapsed,
+   sidebar mengecil dan teks di-hide */
+.sidebar-collapsed #sidebar {
+    width: 4.5rem; /* icon-only mode */
+}
+
+/* Sembunyikan teks ketika collapsed */
+.sidebar-collapsed #sidebar .sidebar-brand-text,
+.sidebar-collapsed #sidebar .sidebar-subtitle,
+.sidebar-collapsed #sidebar .nav-label,
+.sidebar-collapsed #sidebar .sidebar-footer-text,
+.sidebar-collapsed #sidebar .nav-section-title {
+    display: none;
+}
+
+/* Atur align brand dan nav ketika collapsed */
+.sidebar-collapsed #sidebar .sidebar-brand {
+    justify-content: center;
+}
+
+.sidebar-collapsed #sidebar .nav-link {
+    justify-content: center;
+    gap: 0;
+}
+
+/* Supaya sidebar tetap lebar normal ketika tidak collapsed */
+#sidebar {
+    width: 16rem; /* +/- Tailwind w-64 */
+}

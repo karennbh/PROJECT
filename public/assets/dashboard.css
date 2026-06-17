@@ -1,0 +1,191 @@
+.dashboard-wrapper {
+    background: radial-gradient(circle at top left, #e0f2fe 0, transparent 45%),
+                radial-gradient(circle at bottom right, #dcfce7 0, transparent 45%);
+}
+
+/* Kartu statistik atas */
+.stat-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.9rem;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    box-shadow: 0 15px 30px rgba(15, 23, 42, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+}
+
+.stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: radial-gradient(circle at top right, rgba(52, 211, 153, 0.12), transparent 55%);
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.stat-pill {
+    font-size: 0.7rem;
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.stat-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+}
+
+/* Tabel cek ketersediaan */
+.availability-card {
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+}
+
+.availability-table {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.availability-table thead {
+    background: linear-gradient(to right, #f8fafc, #eff6ff);
+}
+
+.availability-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Badge status stok */
+.badge {
+    font-size: 0.68rem;
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 500;
+}
+
+.badge-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+}
+
+.badge-success {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-warning {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+/* Aktivitas terakhir (timeline) */
+.activity-card {
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+}
+
+.activity-timeline {
+    position: relative;
+    padding-left: 1.25rem;
+}
+
+.activity-timeline::before {
+    content: "";
+    position: absolute;
+    left: 0.35rem;
+    top: 0.15rem;
+    bottom: 0.15rem;
+    width: 1px;
+    background: linear-gradient(to bottom, #e5e7eb, #cbd5f5);
+}
+
+.activity-item {
+    position: relative;
+    padding-left: 0.75rem;
+}
+
+.activity-item::before {
+    content: "";
+    position: absolute;
+    left: -0.22rem;
+    top: 0.25rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: #eef2ff;
+    border: 2px solid #4f46e5;
+    box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.2);
+}
+
+/* Tombol kapsul dan input lembut */
+.pill-link {
+    border-radius: 999px;
+    border-width: 1px;
+    padding-inline: 0.75rem;
+    padding-block: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.pill-link:hover {
+    background-color: #f1f5f9;
+}
+
+.input-soft {
+    border-radius: 999px;
+    border-width: 1px;
+    font-size: 0.75rem;
+    padding-inline: 0.9rem;
+    padding-block: 0.45rem;
+    background-color: #f9fafb;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input-soft:focus {
+    outline: none;
+    border-color: #4f46e5;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.08);
+}
+
+.filter-pill {
+    border-radius: 999px;
+    border-width: 1px;
+    font-size: 0.75rem;
+    padding-inline: 0.8rem;
+    padding-block: 0.35rem;
+    background-color: #f9fafb;
+}
+
+.filter-pill:focus {
+    outline: none;
+    border-color: #4f46e5;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.08);
+}
