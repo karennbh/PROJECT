@@ -24,7 +24,7 @@ class PemakaianBHPController extends Controller
             ->orderBy('nama_barang')
             ->get();
 
-        $query = PemakaianBhp::with(['barang', 'user']);
+        $query = PemakaianBHP::with(['barang', 'user']);
 
         // FILTER: Hanya tampilkan milik user yang login (Kecuali Admin)
         if (Auth::user()->user_group !== 'admin') {
@@ -50,7 +50,7 @@ class PemakaianBHPController extends Controller
 
     public function riwayatSemua(Request $request)
     {
-        $query = PemakaianBhp::with(['barang', 'user']);
+        $query = PemakaianBHP::with(['barang', 'user']);
         
         // FILTER: User hanya melihat riwayatnya sendiri
         if (Auth::user()->user_group !== 'admin') {

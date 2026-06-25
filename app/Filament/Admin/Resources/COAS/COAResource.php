@@ -7,7 +7,7 @@ use App\Filament\Admin\Resources\COAS\Pages\EditCOA;
 use App\Filament\Admin\Resources\COAS\Pages\ListCOAS;
 use App\Filament\Admin\Resources\COAS\Schemas\COAForm;
 use App\Filament\Admin\Resources\COAS\Tables\COASTable;
-use App\Models\COA;
+use App\Models\Coa;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -16,7 +16,7 @@ use Filament\Tables\Table;
 
 class COAResource extends Resource
 {
-    protected static ?string $model = COA::class;
+    protected static ?string $model = Coa::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-squares-2x2';
 
@@ -48,8 +48,8 @@ class COAResource extends Resource
     {
         return [
             'index' => ListCOAS::route('/'),
-            'create' => CreateCOA::route('/create'),
-            'edit' => EditCOA::route('/{record}/edit'),
+            'create' => CreateCoa::route('/create'),
+            'edit' => EditCoa::route('/{record}/edit'),
         ];
     }
 }

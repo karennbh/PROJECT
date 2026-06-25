@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PengajuanPembelianBarang;
-use App\Models\PemakaianBhp;
+use App\Models\PemakaianBHP;
 use App\Models\PeminjamanBarang;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -102,7 +102,7 @@ class RiwayatAktivitasController extends Controller
 
     private function collectPemakaian(Request $request, int $userId, bool $isAdmin): Collection
     {
-        $query = PemakaianBhp::with(['barang', 'user']);
+        $query = PemakaianBHP::with(['barang', 'user']);
 
         if (! $isAdmin) {
             $query->where('user_id', $userId);

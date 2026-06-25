@@ -5,14 +5,14 @@ namespace App\Filament\Admin\Resources\Pemakaianbhps;
 use App\Filament\Admin\Resources\Pemakaianbhps\Pages\ListPemakaianbhps;
 use App\Filament\Admin\Resources\Pemakaianbhps\Schemas\PemakaianbhpInfolist;
 use App\Filament\Admin\Resources\Pemakaianbhps\Tables\PemakaianbhpsTable;
-use App\Models\Pemakaianbhp;
+use App\Models\PemakaianBHP;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
 class PemakaianbhpResource extends Resource
 {
-    protected static ?string $model = Pemakaianbhp::class;
+    protected static ?string $model = PemakaianBHP::class;
     protected static ?string $navigationLabel = 'Pemakaian BHP';
     protected static ?string $modelLabel = 'Pemakaian BHP';
     protected static ?string $pluralModelLabel = 'Pemakaian BHP';

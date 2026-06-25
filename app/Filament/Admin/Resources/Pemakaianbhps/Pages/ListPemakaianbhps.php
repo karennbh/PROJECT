@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Resources\Pemakaianbhps\Pages;
 
 use App\Filament\Admin\Resources\Pemakaianbhps\PemakaianbhpResource;
-use App\Models\Pemakaianbhp;
+use App\Models\PemakaianBHP;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Filament\Actions\Action;
@@ -51,7 +51,7 @@ class ListPemakaianbhps extends ListRecords
                         $tanggalAkhir = $tanggalAwal->copy()->endOfDay();
                     }
 
-                    $query = Pemakaianbhp::query()
+                    $query = PemakaianBHP::query()
                         ->with(['user', 'barang'])
                         ->whereBetween('tanggal_pemakaian', [$tanggalAwal->toDateString(), $tanggalAkhir->toDateString()]);
 

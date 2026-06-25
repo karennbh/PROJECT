@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
 
-class PemakaianBhp extends Model
+class PemakaianBHP extends Model
 {
     use HasFactory;
 

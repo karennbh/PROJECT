@@ -6,7 +6,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\RawJs;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use App\Models\COA;
+use App\Models\Coa;
 use Illuminate\Validation\Rule;
 
 class COAForm
@@ -93,7 +93,7 @@ class COAForm
                         return false;
                     }
 
-                    return COA::query()
+                    return Coa::query()
                         ->where('header_akun', $get('header_akun'))
                         ->where('nama_akun', $value)
                         ->when($record, fn ($query) => $query->whereKeyNot($record->getKey()))
@@ -110,7 +110,7 @@ class COAForm
                     return function (string $attribute, $value, \Closure $fail) use ($get) {
                         if (!$get('header_akun')) return;
 
-                        $exists = COA::where('header_akun', $get('header_akun'))
+                        $exists = Coa::where('header_akun', $get('header_akun'))
                             ->where('nama_akun', $value)
                             ->exists();
 
