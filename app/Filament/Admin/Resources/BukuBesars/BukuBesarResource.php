@@ -4,13 +4,13 @@ namespace App\Filament\Admin\Resources\BukuBesars;
 
 use App\Filament\Admin\Resources\BukuBesars\Pages\ListBukuBesars;
 use App\Filament\Admin\Resources\BukuBesars\Tables\BukuBesarsTable;
-use App\Models\BukuBesar;
+use App\Models\JurnalUmum;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
 class BukuBesarResource extends Resource
 {
-    protected static ?string $model = BukuBesar::class;
+    protected static ?string $model = JurnalUmum::class;
     protected static ?string $navigationLabel = 'Buku Besar';
     protected static ?string $modelLabel = 'Buku Besar';
     protected static ?string $pluralModelLabel = 'Buku Besar';

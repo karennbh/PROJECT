@@ -2,8 +2,6 @@
 
 namespace App\Filament\Admin\Resources\BukuBesars\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -23,18 +21,18 @@ class BukuBesarsTable
                     ->state(fn ($record): string => self::referenceFor($record) ?: '-'),
                 TextColumn::make('deskripsi')->limit(30),
 
-                TextColumn::make('jurnaldetail.nominal_debit')
+                TextColumn::make('details.nominal_debit')
                     ->label('Total Debit')
                     ->formatStateUsing(function ($state, $record) {
-                        $debit = $record->jurnaldetail()->sum('nominal_debit');
+                        $debit = $record->details()->sum('nominal_debit');
                         return 'Rp'.number_format((int) $debit, 0, ',', '.');
                     })
                     ->alignment('end'),
 
-                TextColumn::make('jurnaldetail.nominal_kredit')
+                TextColumn::make('details.nominal_kredit')
                     ->label('Total Kredit')
                     ->formatStateUsing(function ($state, $record) {
-                        $credit = $record->jurnaldetail()->sum('nominal_kredit');
+                        $credit = $record->details()->sum('nominal_kredit');
                         return 'Rp'.number_format((int) $credit, 0, ',', '.');
                     })
                     ->alignment('end'),
@@ -55,11 +53,7 @@ class BukuBesarsTable
                     ->modalCancelActionLabel('Tutup')
                     ->modalContent(fn ($record) => self::bukuBesarContent($record)),
             ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ])
+            ->toolbarActions([])
             ->striped()
             ->paginated([10, 25, 50, 100])
             ->emptyStateHeading('Belum ada buku besar')
@@ -128,8 +122,7 @@ class BukuBesarsTable
 
     private static function referenceFor($record): ?string
     {
-        return $record->no_referensi
-            ?: $record->reff_penyusutan
+        return $record->reff_penyusutan
             ?: $record->reff_perolehan_barang
             ?: $record->reff_pengisian_kas_kecil
             ?: $record->reff_pendapatan_hibah

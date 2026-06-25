@@ -62,17 +62,11 @@ class BukuBesarTableOverview extends Widget
             $kodeAkun = $coa->kode_akun;
             
             $isNormalKredit = self::isNormalKredit($coa);
-            $isAkunNominal = self::isAkunNominal($coa);
 
-            $saldo = $isAkunNominal ? 0 : (int) ($coa->jumlah_saldo ?? 0);
-            $tanggalMulaiSaldo = $isAkunNominal ? $awal->copy()->startOfYear() : null;
+            $saldo = (int) ($coa->jumlah_saldo ?? 0);
             
-            $transaksiLalu = \App\Models\JurnalDetail::whereHas('jurnalUmum', function($q) use ($awal, $tanggalMulaiSaldo) {
+            $transaksiLalu = \App\Models\JurnalDetail::whereHas('jurnalUmum', function($q) use ($awal) {
                     $q->where('tanggal', '<', $awal);
-
-                    if ($tanggalMulaiSaldo !== null) {
-                        $q->where('tanggal', '>=', $tanggalMulaiSaldo);
-                    }
                 })
                 ->where('kode_akun', $kodeAkun)
                 ->get();
@@ -227,11 +221,6 @@ class BukuBesarTableOverview extends Widget
             || str_starts_with($kodeAkun, '3')
             || str_starts_with($kodeAkun, '4')
             || str_contains(strtolower((string) $coa->nama_akun), 'akumulasi');
-    }
-
-    private static function isAkunNominal(Coa $coa): bool
-    {
-        return in_array($coa->header_akun, ['Beban', 'Pendapatan'], true);
     }
 
     private function ensureDefaultPeriode(): void
