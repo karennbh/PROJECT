@@ -127,6 +127,24 @@
     </div>
     @endif
 
+    @if(session('error'))
+    <div class="bg-rose-50 border border-rose-100 text-rose-600 px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"></path></svg>
+        {{ session('error') }}
+    </div>
+    @endif
+
+    @if($errors->any())
+    <div class="bg-rose-50 border border-rose-100 text-rose-600 px-4 py-3 rounded-xl text-xs font-semibold">
+        <p class="font-bold mb-2">Pengajuan belum terkirim. Periksa isian berikut:</p>
+        <ul class="list-disc list-inside space-y-1">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <div class="lg:col-span-2">
@@ -183,7 +201,7 @@
                                                 placeholder="1.000" autocomplete="off">
                                             <input type="hidden" name="items[0][perkiraan_harga]" class="input-harga">
                                         </div>
-                                        <p class="text-rose-500 text-xs font-semibold mt-1 harga-error hidden">Harga tidak boleh kurang dari 0.</p>
+                                        <p class="text-rose-500 text-xs font-semibold mt-1 harga-error hidden">Harga minimal Rp 1.000.</p>
                                     </div>
                                     <div>
                                         <label class="text-xs font-bold text-slate-400 mb-1 block uppercase">Jumlah Unit</label>
@@ -209,13 +227,19 @@
 
                     <div>
                         <label class="modern-label">Alasan</label>
-                        <textarea name="alasan" rows="3" class="modern-textarea px-3 py-2.5" placeholder="Jelaskan mengapa barang-barang ini dibutuhkan..." required></textarea>
+                        <textarea name="alasan" rows="3" class="modern-textarea px-3 py-2.5 {{ $errors->has('alasan') ? 'is-invalid' : '' }}" placeholder="Jelaskan mengapa barang-barang ini dibutuhkan..." required>{{ old('alasan') }}</textarea>
+                        @error('alasan')
+                            <p class="field-error">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
                         <label class="modern-label">Bukti Pendukung</label>
-                        <input type="file" name="bukti_pendukung" required class="modern-input w-full px-3 py-2 text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                        <p class="text-xs text-slate-400 mt-1.5">Format: JPG, PNG. Ukuran maksimal: 2MB.</p>
+                        <input type="file" name="bukti_pendukung" accept="image/jpeg,image/png,image/webp" required class="modern-input w-full px-3 py-2 text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 {{ $errors->has('bukti_pendukung') ? 'is-invalid' : '' }}">
+                        <p class="text-xs text-slate-400 mt-1.5">Format: JPG, JPEG, PNG, WEBP. Ukuran maksimal: 100MB.</p>
+                        @error('bukti_pendukung')
+                            <p class="field-error">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
@@ -343,6 +367,32 @@ function attachHargaEvents(displayInput) {
     const hiddenInput = displayInput.closest('div.relative').querySelector('.input-harga');
     const errorEl    = displayInput.closest('div').parentElement.querySelector('.harga-error');
 
+    function setHargaError(message = '') {
+        if (message) {
+            displayInput.classList.add('is-invalid', 'border-rose-400');
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.classList.remove('hidden');
+            }
+            return;
+        }
+
+        displayInput.classList.remove('is-invalid', 'border-rose-400');
+        errorEl && errorEl.classList.add('hidden');
+    }
+
+    displayInput.validateHarga = function () {
+        const value = parseRibuan(hiddenInput.value);
+
+        if (value < 1000) {
+            setHargaError('Harga minimal Rp 1.000.');
+            return false;
+        }
+
+        setHargaError();
+        return true;
+    };
+
     displayInput.addEventListener('input', function () {
         // Hanya izinkan angka
         const raw = this.value.replace(/\D/g, '');
@@ -354,14 +404,13 @@ function attachHargaEvents(displayInput) {
         // Simpan nilai bersih ke hidden
         hiddenInput.value = raw ? num : '';
 
-        // Validasi negatif (tidak bisa lewat keyboard tapi jaga-jaga)
-        if (num < 0) {
-            displayInput.classList.add('border-rose-400');
-            errorEl && errorEl.classList.remove('hidden');
+        if (raw && num < 1000) {
+            setHargaError('Harga minimal Rp 1.000.');
+        } else if (!raw) {
+            setHargaError();
             hiddenInput.value = '';
         } else {
-            displayInput.classList.remove('border-rose-400');
-            errorEl && errorEl.classList.add('hidden');
+            setHargaError();
         }
 
         calculateGrandTotal();
@@ -383,6 +432,7 @@ function attachHargaEvents(displayInput) {
         const num = parseInt(raw, 10);
         this.value        = num.toLocaleString('id-ID');
         hiddenInput.value = num;
+        this.validateHarga();
         calculateGrandTotal();
     });
 }
@@ -415,7 +465,7 @@ function buildItemHTML(idx) {
                         placeholder="1.000" autocomplete="off">
                     <input type="hidden" name="items[${idx}][perkiraan_harga]" class="input-harga">
                 </div>
-                <p class="text-rose-500 text-xs font-semibold mt-1 harga-error hidden">Harga tidak boleh kurang dari 0.</p>
+                <p class="text-rose-500 text-xs font-semibold mt-1 harga-error hidden">Harga minimal Rp 1.000.</p>
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-400 mb-1 block uppercase">Jumlah Unit</label>
@@ -553,9 +603,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        itemsContainer.querySelectorAll('.input-harga-display').forEach((input) => {
+            if (!input.validateHarga()) {
+                isValid = false;
+            }
+        });
+
         if (!isValid) {
             event.preventDefault();
-            const firstError = itemsContainer.querySelector('.nama-barang-err:not(.hidden), .jumlah-err:not(.hidden)');
+            const firstError = itemsContainer.querySelector('.nama-barang-err:not(.hidden), .jumlah-err:not(.hidden), .harga-error:not(.hidden)');
             firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     });

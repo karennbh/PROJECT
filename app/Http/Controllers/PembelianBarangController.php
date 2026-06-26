@@ -10,13 +10,25 @@ use Illuminate\Support\Facades\DB;
 
 class PembelianBarangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $users = User::where('user_group', '!=', 'admin')->get();
         $query = PengajuanPembelianBarang::with('user');
 
         if (Auth::user()->user_group !== 'admin') {
             $query->where('user_id', Auth::id());
+        }
+
+        if ($request->filled('tanggal_dari')) {
+            $query->whereDate('tanggal_pengajuan', '>=', $request->tanggal_dari);
+        }
+
+        if ($request->filled('tanggal_sampai')) {
+            $query->whereDate('tanggal_pengajuan', '<=', $request->tanggal_sampai);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         $riwayat = $query->latest()->limit(5)->get();
@@ -27,9 +39,9 @@ class PembelianBarangController extends Controller
     public function store(Request $request)
     {
         // Validasi input utama dan array items
-        $request->validate([
+        $validated = $request->validate([
             'alasan' => 'required|string',
-            'bukti_pendukung' => 'required|image|mimes:jpg,png|max:2048',
+            'bukti_pendukung' => 'required|image|mimes:jpg,jpeg,png,webp|max:102400',
             'items' => 'required|array|min:1',
             'items.*.nama_barang' => 'required|string|min:3|max:50',
             'items.*.jumlah' => 'required|integer|min:1',
@@ -40,7 +52,8 @@ class PembelianBarangController extends Controller
             'alasan.required' => 'Alasan pengajuan wajib diisi.',
             'bukti_pendukung.required' => 'Bukti pendukung wajib diupload.',
             'bukti_pendukung.image' => 'Bukti pendukung harus berupa gambar.',
-            'bukti_pendukung.mimes' => 'Bukti pendukung harus berformat jpg atau png.',
+            'bukti_pendukung.mimes' => 'Bukti pendukung harus berformat jpg, jpeg, png, atau webp.',
+            'bukti_pendukung.max' => 'Ukuran bukti pendukung maksimal 100MB.',
             'items.required' => 'Daftar barang wajib diisi.',
             'items.min' => 'Minimal ada 1 barang yang diajukan.',
             'items.*.nama_barang.required' => 'Nama barang wajib diisi.',
@@ -67,7 +80,7 @@ class PembelianBarangController extends Controller
             }
 
             // Loop untuk menyimpan setiap item barang
-            foreach ($request->items as $item) {
+            foreach ($validated['items'] as $item) {
                 $sub_total = $item['perkiraan_harga'] * $item['jumlah'];
 
                 PengajuanPembelianBarang::create([
@@ -79,7 +92,7 @@ class PembelianBarangController extends Controller
                     'perkiraan_harga' => $item['perkiraan_harga'],
                     'sub_total' => $sub_total,
                     'link_barang' => $item['link_barang'] ?? null,
-                    'alasan' => $request->alasan,
+                    'alasan' => $validated['alasan'],
                     'bukti_pendukung' => $buktiPath,
                     'status' => 'pending',
                 ]);
@@ -90,7 +103,7 @@ class PembelianBarangController extends Controller
             
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
