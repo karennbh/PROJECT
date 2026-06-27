@@ -75,45 +75,7 @@ class PerolehanBarangsTable
 
                 ImageColumn::make('dokumen_perolehan')
                     ->label('Dokumen')
-                    ->getStateUsing(function ($record) {
-                        $path = in_array($record->sumber_perolehan, [
-                            PerolehanBarang::SUMBER_HIBAH_LEGACY,
-                            PerolehanBarang::SUMBER_HIBAH,
-                            PerolehanBarang::SUMBER_HIBAH_UANG,
-                        ], true)
-                            ? $record->bukti_dokumen_hibah
-                            : $record->foto_nota;
-
-                        if (! $path) {
-                            return null;
-                        }
-
-                        if (is_array($path)) {
-                            $path = $path[0] ?? null;
-                        }
-
-                        if (is_string($path)) {
-                            $decoded = json_decode($path, true);
-
-                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                $path = $decoded[0] ?? null;
-                            }
-                        }
-
-                        if (! $path) {
-                            return null;
-                        }
-
-                        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-                            return $path;
-                        }
-
-                        $path = str_replace('\\', '/', $path);
-                        $path = ltrim($path, '/');
-                        $path = preg_replace('#^storage/#', '', $path);
-
-                        return asset('storage/' . $path);
-                    })
+                    ->getStateUsing(fn (PerolehanBarang $record) => self::dokumenPerolehanUrl($record))
                     ->square()
                     ->size(60)
                     ->alignCenter()
@@ -249,9 +211,19 @@ class PerolehanBarangsTable
             ->values()
             ->map(function (PerolehanBarangDetail $detail, int $index) use ($record): string {
                 $namaBarang = $detail->nama_barang ?: $detail->barangKantor?->nama_barang ?: '-';
+                $kategoriBarang = self::kategoriBarangLabel($detail->kategori_barang);
+                $jenisAset = $detail->kategori_barang === 'aset'
+                    ? self::jenisAsetLabel($detail->jenis_aset)
+                    : '-';
+                $jenisBhp = $detail->kategori_barang === 'bhp'
+                    ? self::jenisBhpLabel($detail->jenis_bhp)
+                    : '-';
 
                 return '<tr>'
                     . '<td class="ta-name">' . e($namaBarang) . '</td>'
+                    . '<td>' . e($kategoriBarang) . '</td>'
+                    . '<td>' . e($jenisAset) . '</td>'
+                    . '<td>' . e($jenisBhp) . '</td>'
                     . '<td class="ta-number">' . number_format((int) $detail->jumlah_perolehan, 0, ',', '.') . '</td>'
                     . '<td class="ta-number">' . self::rupiah($detail->harga_satuan ?: $detail->harga_perolehan) . '</td>'
                     . '<td class="ta-number">' . self::rupiah($detail->total_harga) . '</td>'
@@ -264,7 +236,7 @@ class PerolehanBarangsTable
             ->join('');
 
         if ($rows === '') {
-            $rows = '<tr><td colspan="8" class="ta-empty">Belum ada detail barang.</td></tr>';
+            $rows = '<tr><td colspan="11" class="ta-empty">Belum ada detail barang.</td></tr>';
         }
 
         $tanggal = $record->tanggal_pembelian
@@ -279,6 +251,13 @@ class PerolehanBarangsTable
             : ((int) $record->grand_total ?: (int) $record->details->sum('total_harga_perolehan'));
         $sumberLabel = self::sumberPerolehanLabel($record->sumber_perolehan);
         $totalFormatted = self::rupiah($total);
+        $dokumenUrl = self::dokumenPerolehanUrl($record);
+        $dokumenLabel = $record->isHibah() ? 'Bukti Dokumen Hibah' : 'Foto Nota';
+        $dokumenContent = $dokumenUrl
+            ? '<a href="' . e($dokumenUrl) . '" target="_blank" rel="noopener noreferrer" class="perolehan-detail__document-link">'
+                . '<img src="' . e($dokumenUrl) . '" alt="' . e($dokumenLabel . ' ' . $record->id_perolehan_barang) . '" class="perolehan-detail__document-image">'
+                . '</a>'
+            : '<div class="perolehan-detail__document-empty">Belum ada dokumen terlampir.</div>';
         $namaPemberiHibah = $record->isHibah()
             ? e($record->nama_pemberi_hibah ?: $record->pendapatanHibah?->sumber_hibah ?: '-')
             : '-';
@@ -359,7 +338,7 @@ class PerolehanBarangsTable
 
                 .perolehan-detail table {
                     width: 100%;
-                    min-width: 860px;
+                    min-width: 1180px;
                     border-collapse: collapse;
                     font-size: 13px;
                 }
@@ -411,6 +390,53 @@ class PerolehanBarangsTable
                     color: rgb(100 116 139);
                 }
 
+                .perolehan-detail__document {
+                    display: grid;
+                    gap: 10px;
+                }
+
+                .perolehan-detail__document-title {
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: rgb(17 24 39);
+                }
+
+                .perolehan-detail__document-frame {
+                    display: flex;
+                    justify-content: center;
+                    padding: 18px;
+                    border: 1px solid rgb(226 232 240);
+                    border-radius: 8px;
+                    background: rgb(248 250 252);
+                }
+
+                .perolehan-detail__document-link {
+                    display: block;
+                    width: min(100%, 680px);
+                }
+
+                .perolehan-detail__document-image {
+                    display: block;
+                    width: 100%;
+                    max-height: 520px;
+                    object-fit: contain;
+                    border-radius: 8px;
+                    border: 1px solid rgb(203 213 225);
+                    background: white;
+                }
+
+                .perolehan-detail__document-empty {
+                    width: 100%;
+                    padding: 18px;
+                    text-align: center;
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: rgb(100 116 139);
+                    border: 1px dashed rgb(203 213 225);
+                    border-radius: 8px;
+                    background: white;
+                }
+
                 @media print {
                     body * {
                         visibility: hidden !important;
@@ -442,6 +468,16 @@ class PerolehanBarangsTable
                         overflow: visible;
                         border-color: rgb(203 213 225);
                         break-inside: avoid;
+                    }
+
+                    .perolehan-detail__document-frame {
+                        border-color: rgb(203 213 225);
+                        background: white;
+                        break-inside: avoid;
+                    }
+
+                    .perolehan-detail__document-image {
+                        max-height: 420px;
                     }
 
                     .perolehan-detail table {
@@ -514,6 +550,9 @@ class PerolehanBarangsTable
                         <thead>
                             <tr>
                                 <th>Nama Barang</th>
+                                <th>Kategori</th>
+                                <th>Jenis Aset</th>
+                                <th>Jenis BHP</th>
                                 <th class="ta-number">Jumlah</th>
                                 <th class="ta-number">Harga Satuan</th>
                                 <th class="ta-number">Total Harga</th>
@@ -528,14 +567,58 @@ class PerolehanBarangsTable
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="7" class="ta-number">Grand Total</td>
+                                <td colspan="10" class="ta-number">Grand Total</td>
                                 <td class="ta-number">{$totalFormatted}</td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
+
+                <div class="perolehan-detail__document">
+                    <div class="perolehan-detail__document-title">Dokumen Terlampir - {$dokumenLabel}</div>
+                    <div class="perolehan-detail__document-frame">
+                        {$dokumenContent}
+                    </div>
+                </div>
             </div>
         HTML);
+    }
+
+    private static function dokumenPerolehanUrl(PerolehanBarang $record): ?string
+    {
+        $path = $record->isHibah()
+            ? $record->bukti_dokumen_hibah
+            : $record->foto_nota;
+
+        if (! $path) {
+            return null;
+        }
+
+        if (is_array($path)) {
+            $path = $path[0] ?? null;
+        }
+
+        if (is_string($path)) {
+            $decoded = json_decode($path, true);
+
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $path = $decoded[0] ?? null;
+            }
+        }
+
+        if (! is_string($path) || $path === '') {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        $path = str_replace('\\', '/', $path);
+        $path = ltrim($path, '/');
+        $path = preg_replace('#^storage/#', '', $path);
+
+        return asset('storage/' . $path);
     }
 
     private static function kategoriBarangLabel(?string $kategori): string
@@ -550,18 +633,28 @@ class PerolehanBarangsTable
     private static function jenisBarangLabel(PerolehanBarangDetail $detail): string
     {
         if ($detail->kategori_barang === 'bhp') {
-            return match ($detail->jenis_bhp) {
-                'atk_operasional_kantor' => 'ATK Operasional Kantor',
-                'inventaris_kantor' => 'BPP Inventaris Kantor',
-                default => 'Barang Habis Pakai',
-            };
+            return self::jenisBhpLabel($detail->jenis_bhp);
         }
 
-        return match ($detail->jenis_aset) {
+        return self::jenisAsetLabel($detail->jenis_aset);
+    }
+
+    private static function jenisAsetLabel(?string $jenisAset): string
+    {
+        return match ($jenisAset) {
             'sarana_pendidikan_laboratorium' => 'Sarana Pendidikan Laboratorium',
             'inventaris_kantor' => 'Inventaris Kantor',
             'kendaraan' => 'Kendaraan',
             default => 'Aset Tetap',
+        };
+    }
+
+    private static function jenisBhpLabel(?string $jenisBhp): string
+    {
+        return match ($jenisBhp) {
+            'atk_operasional_kantor' => 'ATK Operasional Kantor',
+            'inventaris_kantor' => 'BPP Inventaris Kantor',
+            default => 'Barang Habis Pakai',
         };
     }
 

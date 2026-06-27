@@ -550,7 +550,7 @@ class PerolehanBarangForm
                                 Select::make('jenis_bhp')
                                     ->label('Jenis Barang Habis Pakai')
                                     ->options(PerolehanBarangResource::jenisBhpOptions())
-                                    ->default(BarangKantor::JENIS_BHP_ATK_OPERASIONAL_KANTOR)
+                                    ->default(fn (Get $get) => $get('jenis_bhp') ?: BarangKantor::JENIS_BHP_ATK_OPERASIONAL_KANTOR)
                                     ->native(false)
                                     ->required(),
                                 Textarea::make('keterangan')
@@ -562,7 +562,13 @@ class PerolehanBarangForm
                                     ])
                                     ->maxLength(255),
                             ])
-                            ->createOptionUsing(function (array $data, Set $set) {
+                            ->createOptionAction(fn (Action $action, Get $get): Action => $action
+                                ->fillForm([
+                                    'jenis_bhp' => $get('jenis_bhp') ?: BarangKantor::JENIS_BHP_ATK_OPERASIONAL_KANTOR,
+                                    'satuan' => 'Pcs',
+                                ]))
+                            ->createOptionUsing(function (array $data, Set $set, Get $get) {
+                                $jenisBhp = $get('jenis_bhp') ?: BarangKantor::JENIS_BHP_ATK_OPERASIONAL_KANTOR;
                                 $last = BarangKantor::where('kategori_barang', 'bhp')->orderByDesc('kode_barang')->value('kode_barang');
                                 $next = $last ? intval(substr($last, 4)) + 1 : 1;
 
@@ -570,7 +576,7 @@ class PerolehanBarangForm
                                     'kategori_barang' => 'bhp',
                                     'kode_barang' => 'BHP-' . str_pad($next, 5, '0', STR_PAD_LEFT),
                                     'nama_barang' => $data['nama_barang'],
-                                    'jenis_bhp' => $data['jenis_bhp'],
+                                    'jenis_bhp' => $jenisBhp,
                                     'stok' => 0,
                                     'satuan' => $data['satuan'],
                                     'keterangan' => $data['keterangan'] ?? null,
