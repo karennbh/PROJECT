@@ -4,7 +4,6 @@ namespace App\Filament\Admin\Resources\JurnalUmums\Tables;
 
 use App\Models\PerolehanBarang;
 use Filament\Actions\Action;
-use Filament\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -143,10 +142,6 @@ class JurnalUmumsTable
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel('Tutup')
                     ->modalContent(fn ($record) => self::jurnalUmumContent($record)),
-                DeleteAction::make()
-                    ->label('Hapus')
-                    ->modalHeading('Hapus Jurnal Umum')
-                    ->modalDescription('Jurnal dan detail jurnal terkait akan dihapus. Tindakan ini tidak dapat dibatalkan.'),
             ])
             ->bulkActions([])
             ->defaultSort('tanggal', 'desc')
