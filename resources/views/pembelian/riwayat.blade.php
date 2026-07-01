@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
-@section('title', 'Semua Riwayat Pembelian')
-@section('page_title', 'Riwayat Pengajuan Pembelian')
+@section('title', 'Semua Riwayat Pembelian Barang Kantor')
+@section('page_title', 'Riwayat Pengajuan Pembelian Barang Kantor')
 
 @push('styles')
 <style>
@@ -25,8 +25,8 @@
 <div class="space-y-6 pb-8 animate-main max-w-[1400px]">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-            <h2 class="page-section-title">Semua Riwayat Pembelian</h2>
-            <p class="page-section-subtitle">Daftar lengkap pengajuan pembelian barang</p>
+            <h2 class="page-section-title">Semua Riwayat Pembelian Barang Kantor</h2>
+            <p class="page-section-subtitle">Daftar lengkap pengajuan pembelian barang kantor</p>
         </div>
         <a href="{{ route('pembelian.index') }}" class="text-sm font-semibold text-white bg-sky-400 px-4 py-2.5 rounded-lg shadow-lg shadow-sky-400/25 hover:bg-sky-500 transition-all"><- Kembali ke Form</a>
     </div>

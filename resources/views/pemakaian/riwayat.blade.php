@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 @section('title', 'Semua Riwayat Pemakaian BHP')
-@section('page_title', 'Riwayat Pemakaian Barang Habis Pakai')
+@section('page_title', 'Riwayat Pemakaian BHP')
 
 @push('styles')
 <style>

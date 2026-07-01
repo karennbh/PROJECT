@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title', 'Peminjaman Barang Kantor')
-@section('page_title', 'Form Peminjaman Barang Kantor')
+@section('page_title', 'Peminjaman Barang Kantor')
 
 @push('styles')
 <style>
@@ -224,8 +224,8 @@
 
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-            <h2 class="page-section-title">Pengajuan Peminjaman</h2>
-            <p class="page-section-subtitle">Formulir peminjaman barang inventaris kantor</p>
+            <h2 class="page-section-title">Form Peminjaman Barang Kantor</h2>
+            <p class="page-section-subtitle">Formulir peminjaman barang kantor</p>
         </div>
         <div class="flex items-center">
             <div class="flex items-center gap-2 text-sm font-semibold text-slate-500 bg-white px-4 py-2.5 rounded-full border border-slate-200 shadow-sm">
