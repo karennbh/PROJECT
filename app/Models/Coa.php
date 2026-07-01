@@ -21,7 +21,7 @@ class Coa extends Model
     ];
 
     protected $casts = [
-        'jumlah_saldo' => 'integer',
+        'jumlah_saldo' => 'decimal:2',
     ];
 
     // public function jurnalDetail()

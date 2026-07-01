@@ -29,7 +29,7 @@ class PendapatanHibah extends Model
 
     protected $casts = [
         'tanggal_hibah' => 'date',
-        'nilai_hibah' => 'integer',
+        'nilai_hibah' => 'decimal:2',
     ];
 
     public function jurnal(): HasOne

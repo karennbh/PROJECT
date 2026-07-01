@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangKantor;
 use App\Models\PeminjamanBarang;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +16,19 @@ class PeminjamanBarangController extends Controller
     {
         PeminjamanBarang::expirePendingOverdue();
 
-        $users = User::where('user_group', '!=', 'admin')->get();
-
         $barangs = BarangKantor::query()
+            ->select([
+                'kode_barang',
+                'nama_barang',
+                'kategori_barang',
+                'jenis_aset',
+                'jenis_bhp',
+                'stok',
+                'status_barang',
+                'status_pinjam',
+                'status_penggunaan',
+                'tanggal_diterima',
+            ])
             ->borrowableForPeminjaman()
             ->where('status_barang', 'Aktif')
             ->where('stok', '>', 0)
@@ -93,7 +102,6 @@ class PeminjamanBarangController extends Controller
         $notifikasi = $notifikasiList === [] ? null : implode(' ', $notifikasiList);
 
         return view('peminjaman-barang.index', compact(
-            'users',
             'barangs',
             'riwayat',
             'notifikasi'

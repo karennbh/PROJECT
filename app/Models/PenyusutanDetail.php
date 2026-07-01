@@ -20,9 +20,9 @@ class PenyusutanDetail extends Model
     ];
 
     protected $casts = [
-        'beban_penyusutan_bulanan' => 'integer',
-        'akumulasi' => 'integer',
-        'nilai_buku' => 'integer',
+        'beban_penyusutan_bulanan' => 'decimal:2',
+        'akumulasi' => 'decimal:2',
+        'nilai_buku' => 'decimal:2',
     ];
 
     public function penyusutan()

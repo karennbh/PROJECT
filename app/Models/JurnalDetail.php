@@ -19,8 +19,8 @@ class JurnalDetail extends Model
     ];
 
     protected $casts = [
-        'nominal_debit' => 'integer',
-        'nominal_kredit' => 'integer',
+        'nominal_debit' => 'decimal:2',
+        'nominal_kredit' => 'decimal:2',
     ];
 
     protected static function booted(): void

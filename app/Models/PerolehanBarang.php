@@ -44,12 +44,12 @@ class PerolehanBarang extends Model
     protected $casts = [
         'tanggal_pembelian' => 'date',
         'tanggal_diterima' => 'date',
-        'subtotal_barang' => 'integer',
-        'diskon_total' => 'integer',
-        'biaya_lainnya_total' => 'integer',
-        'grand_total' => 'integer',
-        'total_nilai_hibah' => 'integer',
-        'nilai_pengakuan_pendapatan_hibah_uang' => 'integer',
+        'subtotal_barang' => 'decimal:2',
+        'diskon_total' => 'decimal:2',
+        'biaya_lainnya_total' => 'decimal:2',
+        'grand_total' => 'decimal:2',
+        'total_nilai_hibah' => 'decimal:2',
+        'nilai_pengakuan_pendapatan_hibah_uang' => 'decimal:2',
     ];
 
     public function details()

@@ -205,7 +205,7 @@
                                     </div>
                                     <div>
                                         <label class="text-xs font-bold text-slate-400 mb-1 block uppercase">Jumlah Unit</label>
-                                        <input type="number" name="items[0][jumlah]" class="modern-input px-3 py-2 input-jumlah" value="1" min="1" max="2147483647" required>
+                                        <input type="number" name="items[0][jumlah]" class="modern-input px-3 py-2 input-jumlah" value="1" min="1" required>
                                         <p class="jumlah-err field-error hidden">Jumlah minimal 1.</p>
                                     </div>
                                 </div>
@@ -333,10 +333,10 @@
 
 <script>
 let itemIndex = 1;
-const MYSQL_INT_MAX = 2147483647;
-const MYSQL_INT_MAX_RUPIAH = new Intl.NumberFormat('id-ID', {
+const DECIMAL_MAX = 9999999999999.99;
+const DECIMAL_MAX_RUPIAH = new Intl.NumberFormat('id-ID', {
     style: 'currency', currency: 'IDR', maximumFractionDigits: 0
-}).format(MYSQL_INT_MAX);
+}).format(DECIMAL_MAX);
 
 // ─── Format & parse helpers ───────────────────────────────────────────────────
 function formatRibuan(val) {
@@ -395,13 +395,13 @@ function attachHargaEvents(displayInput) {
             return false;
         }
 
-        if (value > MYSQL_INT_MAX) {
-            setHargaError(`Harga maksimal ${MYSQL_INT_MAX_RUPIAH}.`);
+        if (value > DECIMAL_MAX) {
+            setHargaError(`Harga maksimal ${DECIMAL_MAX_RUPIAH}.`);
             return false;
         }
 
-        if (Number.isFinite(jumlah) && jumlah > 0 && value * jumlah > MYSQL_INT_MAX) {
-            setHargaError(`Total harga per item maksimal ${MYSQL_INT_MAX_RUPIAH}. Kurangi harga atau jumlah.`);
+        if (Number.isFinite(jumlah) && jumlah > 0 && value * jumlah > DECIMAL_MAX) {
+            setHargaError(`Total harga per item maksimal ${DECIMAL_MAX_RUPIAH}. Kurangi harga atau jumlah.`);
             return false;
         }
 
@@ -422,8 +422,8 @@ function attachHargaEvents(displayInput) {
 
         if (raw && num < 1000) {
             setHargaError('Harga minimal Rp 1.000.');
-        } else if (raw && num > MYSQL_INT_MAX) {
-            setHargaError(`Harga maksimal ${MYSQL_INT_MAX_RUPIAH}.`);
+        } else if (raw && num > DECIMAL_MAX) {
+            setHargaError(`Harga maksimal ${DECIMAL_MAX_RUPIAH}.`);
         } else if (!raw) {
             setHargaError();
             hiddenInput.value = '';
@@ -487,7 +487,7 @@ function buildItemHTML(idx) {
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-400 mb-1 block uppercase">Jumlah Unit</label>
-                <input type="number" name="items[${idx}][jumlah]" class="modern-input px-3 py-2 input-jumlah" value="1" min="1" max="2147483647" required>
+                <input type="number" name="items[${idx}][jumlah]" class="modern-input px-3 py-2 input-jumlah" value="1" min="1" required>
                 <p class="jumlah-err field-error hidden">Jumlah minimal 1.</p>
             </div>
         </div>
@@ -558,11 +558,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!Number.isFinite(value) || value < 1) {
             setJumlahError(input, 'Jumlah minimal 1.');
-            return false;
-        }
-
-        if (value > MYSQL_INT_MAX) {
-            setJumlahError(input, 'Jumlah terlalu besar.');
             return false;
         }
 

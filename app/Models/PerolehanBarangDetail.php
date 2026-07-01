@@ -48,15 +48,15 @@ class PerolehanBarangDetail extends Model
     ];
 
     protected $casts = [
-        'nilai_residu' => 'integer',
+        'nilai_residu' => 'decimal:2',
         'jumlah_perolehan' => 'integer',
-        'harga_satuan' => 'integer',
-        'total_harga' => 'integer',
+        'harga_satuan' => 'decimal:2',
+        'total_harga' => 'decimal:2',
         'persentase_subtotal' => 'float',
-        'alokasi_diskon' => 'integer',
-        'alokasi_biaya_lainnya' => 'integer',
-        'harga_perolehan' => 'integer',
-        'total_harga_perolehan' => 'integer',
+        'alokasi_diskon' => 'decimal:2',
+        'alokasi_biaya_lainnya' => 'decimal:2',
+        'harga_perolehan' => 'decimal:2',
+        'total_harga_perolehan' => 'decimal:2',
     ];
 
     public function perolehanBarang()
