@@ -302,7 +302,7 @@
                                 ['url' => '/dashboard', 'label' => 'Dashboard', 'desc' => 'Ringkasan & Statistik'],
                                 ['url' => '/ketersediaan', 'label' => 'Mencari Ketersediaan Barang', 'desc' => 'Stok Barang Real-time'],
                                 ['url' => '/peminjaman', 'label' => 'Peminjaman Barang Kantor', 'desc' => 'Kelola Peminjaman Barang Kantor'],
-                                ['url' => '/pemakaian', 'label' => 'Pemakaian Barang Habis Pakai', 'desc' => 'Kelola Pemakaian BHP'],
+                                ['url' => '/pemakaian', 'label' => 'Pemakaian BHP', 'desc' => 'Kelola Pemakaian BHP'],
                                 ['url' => '/pembelian', 'label' => 'Pembelian Barang Kantor', 'desc' => 'Kelola Pengadaan Barang'],
                             ];
                         @endphp

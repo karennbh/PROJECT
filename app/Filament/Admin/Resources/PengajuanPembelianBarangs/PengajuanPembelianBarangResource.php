@@ -14,9 +14,9 @@ class PengajuanPembelianBarangResource extends Resource
 {
     protected static ?string $model = PengajuanPembelianBarang::class;
 
-    protected static ?string $navigationLabel = 'Pembelian Barang';
-    protected static ?string $modelLabel = 'Pembelian Barang';
-    protected static ?string $pluralModelLabel = 'Pembelian Barang';
+    protected static ?string $navigationLabel = 'Pembelian Barang Kantor';
+    protected static ?string $modelLabel = 'Pembelian Barang Kantor';
+    protected static ?string $pluralModelLabel = 'Pembelian Barang Kantor';
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shopping-cart';
     protected static string|\UnitEnum|null $navigationGroup = 'Pengajuan';
     protected static ?string $recordTitleAttribute = 'id_pembelian_barang_kantor';
