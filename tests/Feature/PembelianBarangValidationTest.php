@@ -24,7 +24,7 @@ class PembelianBarangValidationTest extends TestCase
         ]));
     }
 
-    public function test_pembelian_barang_menolak_harga_melebihi_batas_int(): void
+    public function test_pembelian_barang_menerima_harga_11_digit(): void
     {
         $response = $this->post(route('pembelian.store'), $this->validPayload([
             'items' => [[
@@ -36,11 +36,16 @@ class PembelianBarangValidationTest extends TestCase
             ]],
         ]));
 
-        $response->assertSessionHasErrors('items.0.perkiraan_harga');
-        $this->assertDatabaseCount(PengajuanPembelianBarang::class, 0);
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas(PengajuanPembelianBarang::class, [
+            'nama_barang' => 'Laptop Kantor',
+            'jumlah' => 1,
+            'perkiraan_harga' => '99999999999.00',
+            'sub_total' => '99999999999.00',
+        ]);
     }
 
-    public function test_pembelian_barang_menolak_subtotal_melebihi_batas_int(): void
+    public function test_pembelian_barang_menerima_subtotal_di_atas_batas_int(): void
     {
         $response = $this->post(route('pembelian.store'), $this->validPayload([
             'items' => [[
@@ -52,8 +57,13 @@ class PembelianBarangValidationTest extends TestCase
             ]],
         ]));
 
-        $response->assertSessionHasErrors('items.0.perkiraan_harga');
-        $this->assertDatabaseCount(PengajuanPembelianBarang::class, 0);
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas(PengajuanPembelianBarang::class, [
+            'nama_barang' => 'Laptop Kantor',
+            'jumlah' => 2,
+            'perkiraan_harga' => '1500000000.00',
+            'sub_total' => '3000000000.00',
+        ]);
     }
 
     private function validPayload(array $overrides = []): array

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\PengajuanPembelianBarang;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,12 +10,11 @@ use Illuminate\Validation\ValidationException;
 
 class PembelianBarangController extends Controller
 {
-    private const MYSQL_INT_MAX = 2147483647;
+    private const DECIMAL_MAX = 9999999999999.99;
 
     public function index(Request $request)
     {
-        $users = User::where('user_group', '!=', 'admin')->get();
-        $query = PengajuanPembelianBarang::with('user');
+        $query = PengajuanPembelianBarang::query();
 
         if (Auth::user()->user_group !== 'admin') {
             $query->where('user_id', Auth::id());
@@ -36,7 +34,7 @@ class PembelianBarangController extends Controller
 
         $riwayat = $query->latest()->limit(5)->get();
 
-        return view('pembelian.index', compact('users', 'riwayat'));
+        return view('pembelian.index', compact('riwayat'));
     }
 
     public function store(Request $request)
@@ -47,9 +45,9 @@ class PembelianBarangController extends Controller
             'bukti_pendukung' => 'required|image|mimes:jpg,jpeg,png,webp|max:102400',
             'items' => 'required|array|min:1',
             'items.*.nama_barang' => 'required|string|min:3|max:50',
-            'items.*.jumlah' => 'required|integer|min:1|max:' . self::MYSQL_INT_MAX,
+            'items.*.jumlah' => 'required|integer|min:1',
             'items.*.kategori_barang' => 'required|in:aset,bhp',
-            'items.*.perkiraan_harga' => 'required|integer|min:1000|max:' . self::MYSQL_INT_MAX,
+            'items.*.perkiraan_harga' => 'required|numeric|min:1000|max:' . self::DECIMAL_MAX,
             'items.*.link_barang' => 'nullable|url',
         ], [
             'alasan.required' => 'Alasan pengajuan wajib diisi.',
@@ -64,13 +62,12 @@ class PembelianBarangController extends Controller
             'items.*.jumlah.required' => 'Jumlah wajib diisi.',
             'items.*.jumlah.integer' => 'Jumlah harus berupa angka bulat.',
             'items.*.jumlah.min' => 'Jumlah harus lebih dari 0.',
-            'items.*.jumlah.max' => 'Jumlah terlalu besar.',
             'items.*.kategori_barang.required' => 'Kategori barang wajib dipilih.',
             'items.*.kategori_barang.in' => 'Kategori barang tidak valid.',
             'items.*.perkiraan_harga.required' => 'Perkiraan harga wajib diisi.',
-            'items.*.perkiraan_harga.integer' => 'Perkiraan harga harus berupa angka bulat.',
+            'items.*.perkiraan_harga.numeric' => 'Perkiraan harga harus berupa angka.',
             'items.*.perkiraan_harga.min' => 'Perkiraan harga minimal Rp 1.000.',
-            'items.*.perkiraan_harga.max' => 'Perkiraan harga maksimal Rp 2.147.483.647.',
+            'items.*.perkiraan_harga.max' => 'Perkiraan harga maksimal Rp 9.999.999.999.999,99.',
             'items.*.link_barang.url' => 'Link barang harus berupa URL yang valid.',
         ]);
 
@@ -78,8 +75,8 @@ class PembelianBarangController extends Controller
         foreach ($validated['items'] as $index => $item) {
             $subTotal = (int) $item['perkiraan_harga'] * (int) $item['jumlah'];
 
-            if ($subTotal > self::MYSQL_INT_MAX) {
-                $subtotalErrors["items.{$index}.perkiraan_harga"] = 'Total harga per item maksimal Rp 2.147.483.647. Kurangi harga atau jumlah.';
+            if ($subTotal > self::DECIMAL_MAX) {
+                $subtotalErrors["items.{$index}.perkiraan_harga"] = 'Total harga per item maksimal Rp 9.999.999.999.999,99. Kurangi harga atau jumlah.';
             }
         }
 

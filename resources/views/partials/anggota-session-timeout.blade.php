@@ -10,6 +10,8 @@
     if (!timeoutMs || timeoutMs <= 0) return;
 
     let expiring = false;
+    let lastActivityWriteAt = 0;
+    const activityWriteThrottleMs = 5000;
 
     const now = () => Date.now();
     const getLastAct = () => Number(localStorage.getItem(storageKey) || 0) || 0;
@@ -71,8 +73,11 @@
     };
 
     const markActivity = () => {
-        if (!expiring) {
-            setLastAct();
+        const timestamp = now();
+
+        if (!expiring && timestamp - lastActivityWriteAt >= activityWriteThrottleMs) {
+            lastActivityWriteAt = timestamp;
+            localStorage.setItem(storageKey, String(timestamp));
         }
     };
 

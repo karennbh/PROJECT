@@ -57,9 +57,9 @@ class BarangKantor extends Model
     protected $casts = [
         'stok' => 'integer',
         'umur_ekonomis' => 'integer',
-        'nilai_residu' => 'integer',
+        'nilai_residu' => 'decimal:2',
         'tanggal_diterima' => 'date',
-        'harga_perolehan' => 'integer',
+        'harga_perolehan' => 'decimal:2',
     ];
 
     public function kategoriAset()

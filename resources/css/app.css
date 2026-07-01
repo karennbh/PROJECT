@@ -6,6 +6,23 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Segoe UI', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-brand-dark: #021024;
+    --color-brand-navy: #052659;
+    --color-brand-blue: #005b96;
+    --color-brand-cyan: #48cae4;
+    --color-brand-light: #caf0f8;
+
+    --color-navy-900: #021024;
+    --color-navy-800: #052659;
+    --color-navy-700: #023e8a;
+
+    --color-ocean-500: #0077b6;
+    --color-ocean-400: #0096c7;
+    --color-ocean-300: #00b4d8;
+    --color-ocean-200: #48cae4;
+    --color-ocean-100: #90e0ef;
+    --color-ocean-50: #caf0f8;
 }

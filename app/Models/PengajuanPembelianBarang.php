@@ -14,6 +14,13 @@ class PengajuanPembelianBarang extends Model
     protected $primaryKey = 'id_pembelian_barang_kantor';
     protected $guarded = ['id_pembelian_barang_kantor'];
 
+    protected $casts = [
+        'tanggal_pengajuan' => 'date',
+        'jumlah' => 'integer',
+        'perkiraan_harga' => 'decimal:2',
+        'sub_total' => 'decimal:2',
+    ];
+
     // Relasi ke User
     public function user()
     {

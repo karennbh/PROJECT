@@ -29,7 +29,7 @@ class PengisianKasKecil extends Model
 
     protected $casts = [
         'tanggal' => 'date',
-        'nominal' => 'integer',
+        'nominal' => 'decimal:2',
     ];
 
     public function jurnal(): HasOne

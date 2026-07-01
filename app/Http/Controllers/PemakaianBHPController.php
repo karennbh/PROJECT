@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\PemakaianBHP; 
 use App\Models\BarangKantor;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,9 +13,8 @@ class PemakaianBHPController extends Controller
 {
     public function index(Request $request)
     {
-        // Admin tetap bisa melihat list user, tapi user biasa mungkin tidak butuh
-        $users = User::where('user_group', '!=', 'admin')->get();
         $barangs = BarangKantor::query()
+            ->select(['kode_barang', 'nama_barang', 'stok', 'satuan', 'kategori_barang', 'jenis_bhp', 'status_barang'])
             ->where('kategori_barang', 'bhp')
             ->where('jenis_bhp', BarangKantor::JENIS_BHP_ATK_OPERASIONAL_KANTOR)
             ->where('status_barang', BarangKantor::STATUS_AKTIF)
@@ -45,7 +43,7 @@ class PemakaianBHPController extends Controller
         // Ambil 4 data TERBARU milik user tersebut
         $riwayat = $query->orderBy('id_pemakaian', 'desc')->take(4)->get();
 
-        return view('pemakaian.index', compact('users', 'barangs', 'riwayat'));
+        return view('pemakaian.index', compact('barangs', 'riwayat'));
     }
 
     public function riwayatSemua(Request $request)

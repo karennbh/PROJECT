@@ -7,35 +7,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}?v=2">
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/logo.png') }}?v=2">
     <link rel="apple-touch-icon" href="{{ asset('assets/logo.png') }}?v=2">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            900: '#021024',
-                            800: '#052659',
-                            700: '#023e8a',
-                        },
-                        ocean: {
-                            500: '#0077b6',
-                            400: '#0096c7',
-                            300: '#00b4d8',
-                            200: '#48cae4',
-                            100: '#90e0ef',
-                            50: '#caf0f8',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    @vite('resources/css/app.css')
     <style>
         /* Animasi halus untuk background */
         .blob {

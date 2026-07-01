@@ -33,11 +33,11 @@ class PenyusutanAsetTetap extends Model
 
     protected $casts = [
         'tanggal_diterima' => 'date',
-        'harga_perolehan' => 'integer',
-        'nilai_residu' => 'integer',
+        'harga_perolehan' => 'decimal:2',
+        'nilai_residu' => 'decimal:2',
         'umur_ekonomis_tahun' => 'integer',
-        'beban_penyusutan_bulanan' => 'integer',
-        'total_biaya_penyusutan' => 'integer',
+        'beban_penyusutan_bulanan' => 'decimal:2',
+        'total_biaya_penyusutan' => 'decimal:2',
     ];
 
     protected static function booted(): void

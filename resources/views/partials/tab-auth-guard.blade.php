@@ -61,7 +61,12 @@
 
             const needsRefresh = event.persisted || isBackForwardNavigation;
 
-            if (!needsRefresh || sessionStorage.getItem(backRefreshKey) === '1') {
+            if (!needsRefresh) {
+                sessionStorage.removeItem(backRefreshKey);
+                return;
+            }
+
+            if (sessionStorage.getItem(backRefreshKey) === '1') {
                 sessionStorage.removeItem(backRefreshKey);
                 validateCurrentSessionUser();
                 return;
@@ -76,14 +81,13 @@
             return;
         }
 
-        validateCurrentSessionUser();
         window.addEventListener('focus', validateCurrentSessionUser);
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
                 validateCurrentSessionUser();
             }
         });
-        window.setInterval(validateCurrentSessionUser, 15000);
+        window.setInterval(validateCurrentSessionUser, 60000);
 
         if (!('BroadcastChannel' in window)) {
             return;
